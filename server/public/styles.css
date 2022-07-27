@@ -1,0 +1,72 @@
+* {
+  font-family: "Abril Fatface", cursive;
+}
+
+.background-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  visibility: visible;
+  overflow: hidden;
+}
+
+video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -100;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+.row {
+  display: flex;
+  height: 100%;
+}
+
+h2 {
+  font-size: 1.8rem;
+}
+
+.card-position {
+  top: 200px;
+}
+
+@media only screen and (min-width: 300px) and (max-width: 875px) {
+  .col-5 {
+    width: 100%;
+  }
+
+  .card {
+    margin: 0;
+  }
+
+  .card-position {
+    position: relative;
+    top: 150px;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+  }
+}
+
+@media only screen and (min-width: 200px) and (max-width: 299px) {
+  .col-5 {
+    width: 100%;
+  }
+
+  .card {
+    width: 100%;
+    margin: 0;
+  }
+
+  .card-position {
+    top: 100px;
+  }
+}
