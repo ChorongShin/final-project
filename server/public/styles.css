@@ -7,7 +7,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   visibility: visible;
   overflow: hidden;
 }
@@ -33,16 +33,40 @@ h2 {
   font-size: 1.8rem;
 }
 
-@media (max-width: 400px) {
+.card-position {
+  top: 200px;
+}
+
+@media only screen and (min-width: 300px) and (max-width: 875px) {
   .col-5 {
     width: 100%;
   }
 
   .card {
-    margin-left: 2.4rem;
+    margin: 0;
+  }
+
+  .card-position {
+    position: relative;
+    top: 150px;
   }
 
   h2 {
     font-size: 1.8rem;
+  }
+}
+
+@media only screen and (min-width: 200px) and (max-width: 299px) {
+  .col-5 {
+    width: 100%;
+  }
+
+  .card {
+    width: 100%;
+    margin: 0;
+  }
+
+  .card-position {
+    top: 100px;
   }
 }

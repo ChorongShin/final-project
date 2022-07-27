@@ -13,12 +13,11 @@ export default class AuthPage extends React.Component {
 
     return (
        <>
-        <div className="col-5">
+        <div className="col-5 video-display">
           <Video />
         </div>
        <div className="col-5">
-      <div className="pt-5 mt-5">
-          <div className="card p-3">
+          <div className="card p-3 card-position">
           <header className="text-center">
             <h2 className="mb-3">
               Welcome to Baby Journey
@@ -31,7 +30,6 @@ export default class AuthPage extends React.Component {
               action={route.path}
               onSignIn={handleSignIn} />
           </div>
-        </div>
         </div>
         </div>
 

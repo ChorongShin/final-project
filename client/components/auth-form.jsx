@@ -35,6 +35,12 @@ export default class AuthForm extends React.Component {
           this.props.onSignIn(result);
         }
       });
+
+    // reset the form
+    this.setState = {
+      email: '',
+      password: ''
+    };
   }
 
   render() {

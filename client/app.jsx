@@ -59,7 +59,7 @@ export default class App extends React.Component {
     return (
       <AppContext.Provider value={contextValue}>
           <PageContainer>
-            <div className="row justify-content-center">
+            <div className="row justify-content-center vh-100">
               {this.renderPage()}
             </div>
           </PageContainer>

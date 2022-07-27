@@ -6,12 +6,6 @@ body {
   margin: 0;
 }
 
-.col-5 {
-  position: relative;
-}
-
 .card {
-  width: 80%;
   margin-left: 3rem;
-  margin-top: 6rem;
 }
