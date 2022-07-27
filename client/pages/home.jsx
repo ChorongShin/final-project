@@ -1,10 +1,13 @@
 import React from 'react';
-import HelloWorld from '../components/hello-world';
+import AppContext from '../lib/app-context';
+import AuthPage from './auth';
 
 export default function Home(props) {
   return (
-    <div>
-      <HelloWorld />
-    </div>
+    <>
+        <AuthPage />
+    </>
   );
 }
+
+Home.contextType = AppContext;

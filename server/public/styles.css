@@ -1,0 +1,48 @@
+* {
+  font-family: "Abril Fatface", cursive;
+}
+
+.background-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  visibility: visible;
+  overflow: hidden;
+}
+
+video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -100;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+.row {
+  display: flex;
+  height: 100%;
+}
+
+h2 {
+  font-size: 1.8rem;
+}
+
+@media (max-width: 400px) {
+  .col-5 {
+    width: 100%;
+  }
+
+  .card {
+    margin-left: 2.4rem;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+  }
+}
