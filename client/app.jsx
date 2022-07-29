@@ -3,7 +3,8 @@ import jwtDecode from 'jwt-decode';
 import AppContext from './lib/app-context';
 import parseRoute from './lib/parse-route';
 import Auth from './pages/auth';
-import Home from './pages/home';
+// import CareLog from './pages/care-log';
+import Profile from './pages/profile';
 import NotFound from './pages/not-found';
 import PageContainer from './components/page-container';
 
@@ -15,13 +16,16 @@ export default class App extends React.Component {
       isAuthorizing: true,
       route: parseRoute(window.location.hash)
     };
-
     this.componentDidMount = this.componentDidMount.bind(this);
+    this.handleSignIn = this.handleSignIn.bind(this);
+    this.handleSignOut = this.handleSignOut.bind(this);
   }
 
   componentDidMount() {
-    window.addEventListener('hashchange', e => {
-      this.setState({ route: parseRoute(window.location.hash) });
+    window.addEventListener('hashchange', () => {
+      this.setState({
+        route: parseRoute(window.location.hash)
+      });
     });
     const token = window.localStorage.getItem('react-context-jwt');
     const user = token ? jwtDecode(token) : null;
@@ -42,13 +46,14 @@ export default class App extends React.Component {
   renderPage() {
     const { path } = this.state.route;
     if (path === '') {
-      return <Home />;
+      return <Profile />;
     }
 
     if (path === 'sign-in' || path === 'sign-up') {
       return <Auth />;
     }
     return <NotFound />;
+
   }
 
   render() {

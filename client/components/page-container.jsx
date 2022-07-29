@@ -10,8 +10,10 @@ export default function PageContainer({ children }) {
   return (
     <div className="bg-light vh-100">
       <div className="container vh-100">
+        <div className="card color">
         { children }
       </div>
+    </div>
     </div>
   );
 }

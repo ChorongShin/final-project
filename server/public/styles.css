@@ -2,6 +2,11 @@
   font-family: "Abril Fatface", cursive;
 }
 
+html,
+body {
+  height: 100%;
+}
+
 .background-video {
   position: absolute;
   top: 0;
@@ -26,15 +31,30 @@ video {
 
 .row {
   display: flex;
-  height: 100%;
 }
 
-h2 {
+.welcome-font {
   font-size: 1.8rem;
+}
+
+.message-font {
+  font-size: 1.4rem;
 }
 
 .card-position {
   top: 200px;
+}
+
+.color {
+  background-color: #f0eaec;
+}
+
+.rounded-circle {
+  width: 200px;
+  height: 200px;
+  position: relative;
+  bottom: 48px;
+  right: 20px;
 }
 
 @media only screen and (min-width: 300px) and (max-width: 875px) {
@@ -51,8 +71,12 @@ h2 {
     top: 150px;
   }
 
-  h2 {
-    font-size: 1.8rem;
+  .welcome-font {
+    font-size: 1.4rem;
+  }
+
+  .message-font {
+    font-size: 1rem;
   }
 }
 
@@ -68,5 +92,13 @@ h2 {
 
   .card-position {
     top: 100px;
+  }
+
+  .welcome-font {
+    font-size: 1.4rem;
+  }
+
+  .message-font {
+    font-size: 1rem;
   }
 }

@@ -3,8 +3,9 @@ const path = require('path');
 const pg = require('pg');
 const argon2 = require('argon2');
 const express = require('express');
-// const jwt = require('jsonwebtoken'); use it for sign in feature
+const jwt = require('jsonwebtoken');
 const ClientError = require('./client-error');
+const uploadsMiddleware = require('./uploads-middleware');
 const errorMiddleware = require('./error-middleware');
 
 const db = new pg.Pool({
@@ -45,6 +46,81 @@ app.post('/api/auth/sign-up', (req, res, next) => {
     .then(result => {
       const [user] = result.rows;
       res.status(201).json(user);
+    })
+    .catch(err => next(err));
+});
+
+app.post('/api/auth/sign-in', (req, res, next) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    throw new ClientError(400, 'invalid login');
+  }
+
+  const sql = `
+  select "userId",
+         "hashedPassword"
+     from "users"
+    where "email" = $1
+  `;
+  const params = [email];
+
+  db.query(sql, params)
+    .then(result => {
+      const [user] = result.rows;
+      if (!user) {
+        throw new ClientError(401, 'invalid login');
+      }
+      const { userId, hashedPassword } = user;
+      return argon2
+        .verify(hashedPassword, password)
+        .then(isMatching => {
+          if (!isMatching) {
+            throw new ClientError(401, 'invalid login');
+          }
+          const payload = { userId, email };
+          const token = jwt.sign(payload, process.env.TOKEN_SECRET);
+          res.json({ token, user: payload });
+        });
+    })
+    .catch(err => next(err));
+});
+
+app.post('/api/auth/profiles', uploadsMiddleware, (req, res, next) => {
+  const { name, gender, height, weight, birthdate } = req.body;
+  // const userId = req.user.userId;
+  const userId = 1;
+  if (!name || !gender || !birthdate) {
+    throw new ClientError(400, 'name, gender, birthdate are required');
+  }
+
+  const photoUrl = '/images/' + req.file.filename;
+
+  const sql = `
+  insert into "babies" ("userId", "name", "gender", "height", "weight", "birthdate", "photoUrl")
+  values ($1, $2, $3, $4, $5, $6, $7)
+  returning *
+  `;
+
+  const params = [userId, name, gender, height, weight, birthdate, photoUrl];
+
+  db.query(sql, params)
+    .then(result => {
+      const [image] = result.rows;
+      res.status(201).json(image);
+    })
+    .catch(err => next(err));
+});
+
+app.get('/api/auth/profiles', (req, res, next) => {
+  const sql = `
+  select *
+    from "babies"
+  `;
+
+  db.query(sql)
+    .then(result => {
+      const [baby] = result.rows;
+      res.json(baby);
     })
     .catch(err => next(err));
 });

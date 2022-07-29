@@ -21,7 +21,8 @@ CREATE TABLE "public"."babies" (
 	"gender" TEXT NOT NULL,
 	"height" integer NOT NULL,
 	"weight" integer NOT NULL,
-	"birthday" TIMESTAMPTZ NOT NULL,
+	"birthdate" TIMESTAMPTZ NOT NULL,
+  "photoUrl" TEXT NOT NULL,
 	CONSTRAINT "babies_pk" PRIMARY KEY ("babyId")
 ) WITH (
   OIDS=FALSE
