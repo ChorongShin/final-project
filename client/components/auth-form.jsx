@@ -8,7 +8,7 @@ export default class AuthForm extends React.Component {
       password: ''
     };
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
 
   handleInputChange(event) {
@@ -16,7 +16,7 @@ export default class AuthForm extends React.Component {
     this.setState({ [name]: value });
   }
 
-  handleSubmit(event) {
+  handleFormSubmit(event) {
     event.preventDefault();
     const { action } = this.props;
     const req = {
@@ -35,17 +35,11 @@ export default class AuthForm extends React.Component {
           this.props.onSignIn(result);
         }
       });
-
-    // reset the form
-    this.setState = {
-      email: '',
-      password: ''
-    };
   }
 
   render() {
     const { action } = this.props;
-    const { handleInputChange, handleSubmit } = this;
+    const { handleInputChange, handleFormSubmit } = this;
     const alternateActionHref = action === 'sign-up'
       ? '#sign-in'
       : '#sign-up';
@@ -56,7 +50,7 @@ export default class AuthForm extends React.Component {
       ? 'Register'
       : 'Log In';
     return (
-        <form className="w-100" onSubmit={handleSubmit}>
+        <form className="w-100" onSubmit={handleFormSubmit}>
           <div className="mb-3">
             <label htmlFor="email" className="form-label">
               Email

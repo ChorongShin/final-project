@@ -11,18 +11,24 @@ export default class AuthPage extends React.Component {
 
     if (user) return <Redirect to="" />;
 
+    const welcomeMessage = route.path === 'sign-in'
+      ? 'Please sign in to continue'
+      : 'Create an account to get started!';
+
     return (
        <>
-        <div className="col-5 video-display">
+        <div className="col-5 video-display vh-100">
           <Video />
         </div>
        <div className="col-5">
           <div className="card p-3 card-position">
           <header className="text-center">
-            <h2 className="mb-3">
+            <p className="welcome-font">
               Welcome to Baby Journey
-              {/* Please Sign In or Register Your Baby&apos;s Virtual World */}
-            </h2>
+            </p>
+            <p className="message-font">
+              {welcomeMessage}
+            </p>
           </header>
           <div>
             <AuthForm
