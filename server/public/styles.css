@@ -50,11 +50,15 @@ video {
 }
 
 .rounded-circle {
-  width: 200px;
-  height: 200px;
+  width: 180px;
+  height: 180px;
   position: relative;
-  bottom: 48px;
+  bottom: 33px;
   right: 20px;
+}
+
+.font-p {
+  font-size: 1.2rem;
 }
 
 @media only screen and (min-width: 300px) and (max-width: 875px) {

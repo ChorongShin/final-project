@@ -85,12 +85,12 @@ app.post('/api/auth/sign-in', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.post('/api/auth/profiles', uploadsMiddleware, (req, res, next) => {
+app.post('/api/profiles', uploadsMiddleware, (req, res, next) => {
   const { name, gender, height, weight, birthdate } = req.body;
   // const userId = req.user.userId;
   const userId = 1;
-  if (!name || !gender || !birthdate) {
-    throw new ClientError(400, 'name, gender, birthdate are required');
+  if (!name || !gender) {
+    throw new ClientError(400, 'name and gender are required');
   }
 
   const photoUrl = '/images/' + req.file.filename;
@@ -111,7 +111,7 @@ app.post('/api/auth/profiles', uploadsMiddleware, (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.get('/api/auth/profiles', (req, res, next) => {
+app.get('/api/images', (req, res, next) => {
   const sql = `
   select *
     from "babies"

@@ -6,7 +6,7 @@ export default class Profile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      photoUrl: '/images/camera.png',
+      image: '/images/camera.png',
       name: '',
       gender: '',
       birthdate: '',
@@ -24,13 +24,7 @@ export default class Profile extends React.Component {
   }
 
   handlePhotoUpload(event) {
-    if (event.target.files && event.target.files[0]) {
-      const reader = new FileReader();
-      reader.onload = e => {
-        this.setState({ img: e.target.result });
-      };
-      reader.readAsDataURL(event.target.files[0]);
-    }
+    this.setState({ image: URL.createObjectURL(event.target.files[0]) });
   }
 
   handleNameChange(event) {
@@ -55,30 +49,29 @@ export default class Profile extends React.Component {
 
   handleProfileSubmit(e) {
     e.preventDefault();
-    const photoUrl = this.fileInputRef.current.files[0];
+    const image = this.fileInputRef.current.files[0];
     const name = this.state.name;
     const gender = this.state.gender;
-    const birthdate = this.state.birtdate;
+    const birthdate = this.state.birthdate;
     const height = this.state.height;
     const weight = this.state.weight;
 
     const formData = new FormData();
-    formData.append('photoUrl', photoUrl);
+    formData.append('image', image);
     formData.append('name', name);
     formData.append('gender', gender);
     formData.append('birthdate', birthdate);
     formData.append('height', height);
     formData.append('weight', weight);
 
-    fetch('/api/auth/profiles', {
+    fetch('/api/profiles', {
       method: 'POST',
       body: formData
     })
       .then(res => res.json())
       .then(data => {
-        // console.log('data:', data);
         this.setState({
-          photoUrl: '/images/camera.png',
+          image: '/images/camera.png',
           name: '',
           gender: '',
           birthdate: '',
@@ -91,7 +84,7 @@ export default class Profile extends React.Component {
   }
 
   render() {
-    // console.log('state:', this.state);
+
     if (!this.context.user) {
       return <Redirect to="sign-in" />;
     }
@@ -99,28 +92,37 @@ export default class Profile extends React.Component {
     const { handlePhotoUpload, handleRadioChange, handleDateChange } = this;
     const { handleProfileSubmit, handleNameChange, handleHeightChange, handleWeightChange } = this;
 
-    const { photoUrl, name, birthdate, height, weight } = this.state;
+    const { image, name, birthdate, height, weight } = this.state;
     return (
     <>
         <div className="row justify-content-center">
+          <div className="col">
+      <h1 className="text-center mt-5">Welcome to Baby Journey</h1>
+          </div>
+          </div>
+          <div className="row justify-content-center">
           <div className="col mb-4">
-      <h1 className="text-center mt-5">Welcome Baby!</h1>
+            <p className="text-center mt-3 font-p">Please Create Your Baby&apos;s Profile</p>
           </div>
         </div>
-        <form className="mt-5" onSubmit={handleProfileSubmit}>
+        <form onSubmit={handleProfileSubmit}>
         <div className="row justify-content-center">
-          <div className="col-6 col-md-4 col-lg-2">
-              <img src={photoUrl} className="rounded-circle" alt=""/>
+          <div className="col-6 col-md-4 col-lg-2 mt-5 mb-4">
+              <img src={image} className="rounded-circle" alt=""/>
+          </div>
+            <div className="row justify-content-center">
+            <div className="col-5 mb-3">
             <input
               required
               className="mb-3"
               type="file"
               name="image"
               ref={this.fileInputRef}
-              accept=".png, .jpg, .jpeg, .gif" onClick={handlePhotoUpload}/></div>
+              accept=".png, .jpg, .jpeg, .gif" onChange={handlePhotoUpload}/></div>
+            </div>
           </div>
-          <div className="row mb-3 justify-content-center">
-                <label htmlFor="name" className="col-sm-2 col-form-label">Name</label>
+          <div className="row mb-4 justify-content-center">
+                <label htmlFor="name" className="col-sm-2 col-form-label mt-4">Name</label>
             <div className="col-sm-5 col-m">
               <input type="text"
                      className="form-control"
@@ -130,8 +132,8 @@ export default class Profile extends React.Component {
                      onChange={handleNameChange} />
                 </div>
               </div>
-          <fieldset className="form-group">
-            <div className="row mb-3 justify-content-center">
+          <fieldset className="form-group" onChange={handleRadioChange}>
+            <div className="row mb-4 justify-content-center">
               <legend className="col-form-label col-sm-2 pt-0">Gender</legend>
               <div className="col-sm-5">
                 <div className="form-check form-check-inline">
@@ -141,7 +143,7 @@ export default class Profile extends React.Component {
                          name="gender"
                          id="girl"
                          value="girl"
-                         onChange={handleRadioChange} />
+                      />
                       Girl
                     </label>
                 </div>
@@ -152,24 +154,25 @@ export default class Profile extends React.Component {
                          name="gender"
                          id="boy"
                          value="boy"
-                         onChange={handleRadioChange} />
+                         />
                       Boy
                     </label>
                 </div>
               </div>
             </div>
           </fieldset>
-          <div className="row mb-3 justify-content-center">
+          <div className="row mb-4 justify-content-center">
             <label htmlFor="birthdate" className="col-sm-2 col-form-label">Birthdate</label>
             <div className="col-sm-5" >
               <input type="date"
+                     name="birthdate"
                      className="form-control"
                      id="birthdate"
                      value={birthdate}
                      onChange={handleDateChange} />
             </div>
           </div>
-          <div className="row mb-3 justify-content-center">
+          <div className="row mb-4 justify-content-center">
             <label htmlFor="height" className="col-sm-2 col-form-label">Height</label>
             <div className="col-sm-5" >
               <input type="text"
@@ -179,9 +182,9 @@ export default class Profile extends React.Component {
                      onChange={handleHeightChange}/>
             </div>
           </div>
-          <div className="row mb-3 justify-content-center">
+          <div className="row mb-4 justify-content-center">
             <label htmlFor="weight" className="col-sm-2 col-form-label">Weight</label>
-            <div className="col-sm-5" >
+            <div className="col-sm-5 mb-2" >
               <input type="text"
                      className="form-control"
                      id="weight"
@@ -189,8 +192,8 @@ export default class Profile extends React.Component {
                      onChange={handleWeightChange} />
             </div>
           </div>
-          <div className="row text-center mt-5">
-            <div className="col-m-4">
+          <div className="row text-center mb-5">
+            <div className="col-m-4 mb-4">
             <button type="submit" className="btn btn-primary">Submit</button>
             </div>
           </div>

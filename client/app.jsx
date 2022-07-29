@@ -45,7 +45,9 @@ export default class App extends React.Component {
 
   renderPage() {
     const { path } = this.state.route;
-    if (path === '') {
+
+    // if the user hasn't created a baby profile, go to the profile page
+    if (path === 'profile') {
       return <Profile />;
     }
 
@@ -61,10 +63,11 @@ export default class App extends React.Component {
     const { user, route } = this.state;
     const { handleSignIn, handleSignOut } = this;
     const contextValue = { user, route, handleSignIn, handleSignOut };
+
     return (
       <AppContext.Provider value={contextValue}>
           <PageContainer>
-            <div className="row justify-content-center vh-100">
+            <div className="row justify-content-center h-100">
               {this.renderPage()}
             </div>
           </PageContainer>

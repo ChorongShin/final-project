@@ -17,7 +17,7 @@ export default class AuthPage extends React.Component {
 
     return (
        <>
-        <div className="col-5 video-display">
+        <div className="col-5 video-display vh-100">
           <Video />
         </div>
        <div className="col-5">
