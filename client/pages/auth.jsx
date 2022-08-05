@@ -9,7 +9,7 @@ export default class AuthPage extends React.Component {
   render() {
     const { user, route, handleSignIn } = this.context;
 
-    if (user) return <Redirect to="" />;
+    if (user) return <Redirect to="profiles" />;
 
     const welcomeMessage = route.path === 'sign-in'
       ? 'Please sign in to continue'
@@ -17,11 +17,10 @@ export default class AuthPage extends React.Component {
 
     return (
        <>
-        <div className="col-5 video-display vh-100">
+        <div className="col-5 video-display">
           <Video />
         </div>
-       <div className="col-5">
-          <div className="card p-3 card-position">
+          <div className="card py-4 card-position">
           <header className="text-center">
             <p className="welcome-font">
               Welcome to Baby Journey
@@ -37,8 +36,6 @@ export default class AuthPage extends React.Component {
               onSignIn={handleSignIn} />
           </div>
         </div>
-        </div>
-
       </>
     );
   }

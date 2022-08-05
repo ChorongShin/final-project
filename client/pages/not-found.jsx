@@ -17,7 +17,7 @@ export default function NotFound(props) {
           <h3>
            Sorry, we couldn&apos;t find that page....
           </h3>
-          <a className="btn btn-Danger" href="#" role="button">Return Home</a>
+          <a className="btn btn-Danger" href="#home" role="button">Return Home</a>
         </div>
       </div>
     </div>

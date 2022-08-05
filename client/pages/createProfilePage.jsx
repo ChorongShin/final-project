@@ -2,7 +2,7 @@ import React from 'react';
 import Redirect from '../components/redirect';
 import AppContext from '../lib/app-context';
 
-export default class Profile extends React.Component {
+export default class CreateProfilePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -11,7 +11,8 @@ export default class Profile extends React.Component {
       gender: '',
       birthdate: '',
       height: '',
-      weight: ''
+      weight: '',
+      babyProfiles: []
     };
     this.fileInputRef = React.createRef();
     this.handlePhotoUpload = this.handlePhotoUpload.bind(this);
@@ -21,6 +22,21 @@ export default class Profile extends React.Component {
     this.handleHeightChange = this.handleHeightChange.bind(this);
     this.handleWeightChange = this.handleWeightChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
+  }
+
+  componentDidMount() {
+    const req = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Access-Token': window.localStorage.getItem('token-jwt')
+      }
+    };
+
+    fetch('/api/profiles/', req)
+      .then(res => res.json())
+      .then(babyProfiles => this.setState({ babyProfiles }))
+      .catch(err => console.error(err));
   }
 
   handlePhotoUpload(event) {
@@ -80,14 +96,23 @@ export default class Profile extends React.Component {
         });
         this.fileInputRef.current.value = null;
       })
+
       .catch(err => console.error(err));
   }
 
   render() {
-
+    console.log('babyProfile:', this.state.babyProfiles);
     if (!this.context.user) {
       return <Redirect to="sign-in" />;
     }
+
+    // if we've created profile, redirect to HomePage
+    // if babyId exists in the user's account, redirect to HomePage
+    if (this.state.babyProfiles.babyId !== null) {
+      return <Redirect to="home" />;
+    }
+
+    console.log('babyProifle exist:', this.state.babyProfiles.babyId);
 
     const { handlePhotoUpload, handleRadioChange, handleDateChange } = this;
     const { handleProfileSubmit, handleNameChange, handleHeightChange, handleWeightChange } = this;
@@ -95,6 +120,7 @@ export default class Profile extends React.Component {
     const { image, name, birthdate, height, weight } = this.state;
     return (
     <>
+    <div className="color">
         <div className="row justify-content-center">
           <div className="col">
       <h1 className="text-center mt-5">Welcome to Baby Journey</h1>
@@ -110,7 +136,7 @@ export default class Profile extends React.Component {
           <div className="col-6 col-md-4 col-lg-2 mt-5 mb-4">
               <img src={image} className="rounded-circle" alt=""/>
           </div>
-            <div className="row justify-content-center">
+            <div className="d-flex justify-content-between align-items-center">
             <div className="col-5 mb-3">
             <input
               required
@@ -194,13 +220,14 @@ export default class Profile extends React.Component {
           </div>
           <div className="row text-center mb-5">
             <div className="col-m-4 mb-4">
-            <button type="submit" className="btn btn-primary">Submit</button>
+            <button type="submit" className="btn btn-primary" href="#home">Submit</button>
             </div>
           </div>
             </form>
+        </div>
     </>
     );
   }
 }
 
-Profile.contextType = AppContext;
+CreateProfilePage.contextType = AppContext;

@@ -1,12 +1,14 @@
+/* eslint-disable no-console */
 import React from 'react';
 import jwtDecode from 'jwt-decode';
 import AppContext from './lib/app-context';
 import parseRoute from './lib/parse-route';
 import Auth from './pages/auth';
-// import CareLog from './pages/care-log';
-import Profile from './pages/profile';
+import HomePage from './pages/HomePage';
+import CreateProfilePage from './pages/createProfilePage';
 import NotFound from './pages/not-found';
 import PageContainer from './components/page-container';
+import Navbar from './components/navbar';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -16,7 +18,7 @@ export default class App extends React.Component {
       isAuthorizing: true,
       route: parseRoute(window.location.hash)
     };
-    this.componentDidMount = this.componentDidMount.bind(this);
+
     this.handleSignIn = this.handleSignIn.bind(this);
     this.handleSignOut = this.handleSignOut.bind(this);
   }
@@ -27,33 +29,43 @@ export default class App extends React.Component {
         route: parseRoute(window.location.hash)
       });
     });
-    const token = window.localStorage.getItem('react-context-jwt');
+    const token = window.localStorage.getItem('token-jwt');
     const user = token ? jwtDecode(token) : null;
     this.setState({ user, isAuthorizing: false });
   }
 
   handleSignIn(result) {
     const { user, token } = result;
-    window.localStorage.setItem('react-context-jwt', token);
+    window.localStorage.setItem('token-jwt', token);
     this.setState({ user });
   }
 
   handleSignOut() {
-    window.localStorage.removeItem('react-context-jwt');
+    window.localStorage.removeItem('token-jwt');
     this.setState({ user: null });
   }
 
   renderPage() {
     const { path } = this.state.route;
+    console.log('path is: ', path);
+
+    if (path === '') {
+      return <Navbar />;
+    }
 
     // if the user hasn't created a baby profile, go to the profile page
-    if (path === 'profile') {
-      return <Profile />;
+    if (path === 'profiles') {
+      return <CreateProfilePage />;
     }
 
     if (path === 'sign-in' || path === 'sign-up') {
       return <Auth />;
     }
+
+    if (path === 'home') {
+      return <HomePage />;
+    }
+
     return <NotFound />;
 
   }
@@ -67,9 +79,7 @@ export default class App extends React.Component {
     return (
       <AppContext.Provider value={contextValue}>
           <PageContainer>
-            <div className="row justify-content-center h-100">
               {this.renderPage()}
-            </div>
           </PageContainer>
       </AppContext.Provider>
     );
