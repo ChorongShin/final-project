@@ -167,7 +167,8 @@ app.get('/api/babyLogs', (req, res, next) => {
   const sql = `
   select *
   from "babyLogs"
-  `;
+  order by "createdAt" desc
+`;
 
   db.query(sql)
     .then(result => {
@@ -181,8 +182,7 @@ app.get('/api/babyLogs', (req, res, next) => {
 
       group = Object.entries(group).map(([k, v]) => ({ [k]: v }));
 
-      const reversed = group.reverse();
-      res.json(reversed);
+      res.json(group);
     })
     .catch(err => next(err));
 });
