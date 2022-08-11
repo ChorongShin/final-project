@@ -148,7 +148,8 @@ app.post('/api/babyLogs', (req, res, next) => {
     "babyLogId",
     "babyId",
     "typeOfCare",
-    to_char("createdAt", 'YYYY-MM-DD') as "createdAt"
+    to_char("createdAt", 'YYYY-MM-DD') as "date",
+    "createdAt"
 `;
 
   const params = [babyId, typeOfCare];

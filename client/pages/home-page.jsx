@@ -1,8 +1,8 @@
 import React from 'react';
 import AppContext from '../lib/app-context';
-import BabyEntryButtons from '../components/BabyEntryButtons';
-import BabyLogFeed from '../components/BabyLogFeed';
-import Footer from '../components/Footer';
+import BabyEntryButtons from '../components/baby-entry-button';
+import BabyLogFeed from '../components/baby-log-feed';
+import Footer from '../components/footer';
 
 export default class HomePage extends React.Component {
   constructor(props) {
@@ -42,7 +42,7 @@ export default class HomePage extends React.Component {
       .then(res => res.json())
       .then(babyLog => {
         const logsCopy = [...this.state.babyLogs];
-        const date = babyLog.createdAt;
+        const date = babyLog.date;
         const index = logsCopy.findIndex(log => Object.keys(log)[0] === date);
         let logs = null;
 
