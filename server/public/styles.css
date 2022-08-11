@@ -87,9 +87,9 @@ li:nth-child(odd) {
   top: 5px;
 }
 
-/* [type="radio"] + img {
+[type="radio"] + img {
   cursor: pointer;
-} */
+}
 
 .baby-buttons {
   position: absolute;
@@ -162,6 +162,11 @@ ul {
 .footer-position {
   position: fixed;
   bottom: 1rem;
+}
+
+.sign-out {
+  background-color: red;
+  color: white;
 }
 
 @media only screen and (min-width: 300px) and (max-width: 875px) {

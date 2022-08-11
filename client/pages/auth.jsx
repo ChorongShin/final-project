@@ -23,7 +23,7 @@ export default class AuthPage extends React.Component {
           <div className="card py-4 card-position">
           <header className="text-center">
             <p className="welcome-font">
-              Welcome to Baby Journey
+              Welcome to Baby&apos;s Journey
             </p>
             <p className="message-font">
               {welcomeMessage}

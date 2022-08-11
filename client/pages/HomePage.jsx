@@ -16,14 +16,6 @@ export default class HomePage extends React.Component {
   }
 
   componentDidMount() {
-    // const req = {
-    //   method: 'GET',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'X-Access-Token': window.localStorage.getItem('token-jwt')
-    //   }
-    // };
-
     fetch('/api/babyLogs')
       .then(res => res.json())
       .then(babyLogs => this.setState({ babyLogs }))

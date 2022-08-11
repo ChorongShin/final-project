@@ -5,7 +5,7 @@ import { faChartArea, faBook } from '@fortawesome/free-solid-svg-icons';
 
 export default class Footer extends React.Component {
   render() {
-    const { user, handleSignOut } = this.context;
+    // const { user, handleSignOut } = this.context;
     return (
       <div className="row color-footer justify-content-center sticky-bottom">
       <div className="col-2 text-center">
@@ -37,14 +37,13 @@ export default class Footer extends React.Component {
             </a>
           </button>
       </div>
-        <div className="col-2 text-center">
-
-          <button type="button" className="icon-button">
+        {/* <div className="col-2 text-center">
+          <button type="button" className="icon-button sign-out">
             {/* onClick={handleSignOut} */}
-              Sign Out
-          </button>
+              {/* Sign out
+          {/* </button> */}
+        {/* // </div> */}
 
-        </div>
     </div>
     );
   }

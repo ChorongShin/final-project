@@ -90,10 +90,9 @@ app.post('/api/auth/sign-in', (req, res, next) => {
 
 app.post('/api/profiles', uploadsMiddleware, (req, res, next) => {
   const { name, gender, height, weight, birthdate } = req.body;
-  // eslint-disable-next-line no-console
-  console.log(req);
-  const userId = req.user.userId;
-  // const userId = 3;
+  const userId = 3;
+  // const userId = req.user.userId;
+
   if (!name || !gender) {
     throw new ClientError(400, 'name and gender are required');
   }
@@ -124,8 +123,6 @@ app.get('/api/profiles', (req, res, next) => {
     from "babies"
   `;
 
-  // const params = [userId];
-
   db.query(sql)
     .then(result => {
       const [baby] = result.rows;
@@ -136,7 +133,7 @@ app.get('/api/profiles', (req, res, next) => {
 
 app.post('/api/babyLogs', (req, res, next) => {
   const { typeOfCare } = req.body;
-  // console.log(req);
+
   // const babyId = req.baby.babyId;
   const babyId = 8;
 
@@ -158,9 +155,7 @@ app.post('/api/babyLogs', (req, res, next) => {
 
   db.query(sql, params)
     .then(result => {
-      // console.log('result:', result.rows);
       const log = result.rows[0];
-      console.log('log:', log);
       res.status(201).json(log);
     })
     .catch(err => next(err));

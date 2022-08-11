@@ -101,7 +101,7 @@ export default class CreateProfilePage extends React.Component {
   }
 
   render() {
-    console.log('babyProfile:', this.state.babyProfiles);
+    // console.log('babyProfile:', this.state.babyProfiles);
     if (!this.context.user) {
       return <Redirect to="sign-in" />;
     }
@@ -112,7 +112,7 @@ export default class CreateProfilePage extends React.Component {
       return <Redirect to="home" />;
     }
 
-    console.log('babyProifle exist:', this.state.babyProfiles.babyId);
+    // console.log('babyProifle exist:', this.state.babyProfiles.babyId);
 
     const { handlePhotoUpload, handleRadioChange, handleDateChange } = this;
     const { handleProfileSubmit, handleNameChange, handleHeightChange, handleWeightChange } = this;
