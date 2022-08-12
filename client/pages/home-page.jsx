@@ -52,7 +52,7 @@ export default class HomePage extends React.Component {
           logs = { [date]: [] };
         }
 
-        logs[date] = [...logs[date], babyLog];
+        logs[date] = [babyLog, ...logs[date]];
         logsCopy[index] = logs;
 
         this.setState({

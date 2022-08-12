@@ -190,6 +190,11 @@ ul {
   .message-font {
     font-size: 1rem;
   }
+
+  .baby {
+    width: 40px;
+    height: 40px;
+  }
 }
 
 @media only screen and (min-width: 200px) and (max-width: 299px) {
