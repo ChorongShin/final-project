@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 const ClientError = require('./client-error');
 const uploadsMiddleware = require('./uploads-middleware');
 const errorMiddleware = require('./error-middleware');
-// const authorizationMiddleware = require('./authorization-middleware');
+const authorizationMiddleware = require('./authorization-middleware');
 
 const db = new pg.Pool({
   connectionString: process.env.DATABASE_URL,
@@ -86,15 +86,15 @@ app.post('/api/auth/sign-in', (req, res, next) => {
     .catch(err => next(err));
 });
 
-// app.use(authorizationMiddleware);
+app.use(authorizationMiddleware);
 
 app.post('/api/profiles', uploadsMiddleware, (req, res, next) => {
   const { name, gender, height, weight, birthdate } = req.body;
-  const userId = 3;
-  // const userId = req.user.userId;
+  // const userId = 3;
+  const { userId } = req.user;
 
   if (!name || !gender) {
-    throw new ClientError(400, 'name and gender are required');
+    throw new ClientError(400, 'name and gender are required fields');
   }
 
   const photoUrl = '/images/' + req.file.filename;
@@ -117,13 +117,16 @@ app.post('/api/profiles', uploadsMiddleware, (req, res, next) => {
 
 app.get('/api/profiles', (req, res, next) => {
   // const userId = Number(req.user.userId);
+  const { userId } = req.user;
 
   const sql = `
   select *
     from "babies"
+    where "userId" = $1
   `;
 
-  db.query(sql)
+  const params = [userId];
+  db.query(sql, params)
     .then(result => {
       const [baby] = result.rows;
       res.json(baby);
@@ -134,8 +137,8 @@ app.get('/api/profiles', (req, res, next) => {
 app.post('/api/babyLogs', (req, res, next) => {
   const { typeOfCare } = req.body;
 
-  // const babyId = req.baby.babyId;
-  const babyId = 8;
+  const babyId = req.baby.babyId;
+  // const babyId = 8;
 
   if (!typeOfCare) {
     throw new ClientError(400, 'typeOfCare is required');
