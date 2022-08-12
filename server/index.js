@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 const ClientError = require('./client-error');
 const uploadsMiddleware = require('./uploads-middleware');
 const errorMiddleware = require('./error-middleware');
+// const authorizationMiddleware = require('./authorization-middleware');
 
 const db = new pg.Pool({
   connectionString: process.env.DATABASE_URL,
@@ -85,10 +86,13 @@ app.post('/api/auth/sign-in', (req, res, next) => {
     .catch(err => next(err));
 });
 
+// app.use(authorizationMiddleware);
+
 app.post('/api/profiles', uploadsMiddleware, (req, res, next) => {
   const { name, gender, height, weight, birthdate } = req.body;
+  const userId = 3;
   // const userId = req.user.userId;
-  const userId = 1;
+
   if (!name || !gender) {
     throw new ClientError(400, 'name and gender are required');
   }
@@ -111,7 +115,9 @@ app.post('/api/profiles', uploadsMiddleware, (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.get('/api/images', (req, res, next) => {
+app.get('/api/profiles', (req, res, next) => {
+  // const userId = Number(req.user.userId);
+
   const sql = `
   select *
     from "babies"
@@ -123,6 +129,100 @@ app.get('/api/images', (req, res, next) => {
       res.json(baby);
     })
     .catch(err => next(err));
+});
+
+app.post('/api/babyLogs', (req, res, next) => {
+  const { typeOfCare } = req.body;
+
+  // const babyId = req.baby.babyId;
+  const babyId = 8;
+
+  if (!typeOfCare) {
+    throw new ClientError(400, 'typeOfCare is required');
+  }
+
+  const sql = `
+    insert into "babyLogs" ("babyId", "typeOfCare")
+    values ($1, $2)
+    returning
+      "babyLogId",
+      "babyId",
+      "typeOfCare",
+      to_char("createdAt" - interval '8 hours', 'YYYY-MM-DD') as "date",
+      "createdAt"
+  `;
+
+  const params = [babyId, typeOfCare];
+
+  db.query(sql, params)
+    .then(result => {
+      const log = result.rows[0];
+      res.status(201).json(log);
+    })
+    .catch(err => next(err));
+
+});
+
+app.get('/api/babyLogs', (req, res, next) => {
+
+  const sql = `
+  select
+    "babyLogId",
+    "babyId",
+    "typeOfCare",
+    to_char("createdAt" - interval '8 hours', 'YYYY-MM-DD') as "date",
+    "createdAt"
+  from "babyLogs"
+  order by "createdAt" desc
+`;
+
+  db.query(sql)
+    .then(result => {
+      const logs = result.rows;
+
+      let group = logs.reduce((ac, a) => {
+        const key = a.date;
+        ac[key] = (ac[key] || []).concat(a);
+        return ac;
+      }, {});
+
+      group = Object.entries(group).map(([k, v]) => ({ [k]: v }));
+
+      res.json(group);
+    })
+    .catch(err => next(err));
+});
+
+app.delete('/api/babyLogs/:babyLogId', (req, res, next) => {
+  const babyLogId = Number(req.params.babyLogId);
+
+  if (!Number.isInteger(babyLogId) || babyLogId < 0) {
+    throw new ClientError(400, 'babyLogId must be positive integer');
+  }
+
+  const sql = `
+  delete from "babyLogs"
+  where "babyLogId" = $1
+  returning
+  "babyLogId",
+    to_char("createdAt", 'YYYY-MM-DD') as "createdAt"
+`;
+
+  const params = [babyLogId];
+
+  db.query(sql, params)
+    .then(result => {
+      const log = result.rows[0];
+
+      if (!log) {
+        res.status(404).json({
+          error: `cannot find babyLog with babyLogId ${babyLogId}`
+        });
+        return;
+      }
+      res.json(log);
+    }).catch(err => next(err));
+
 });
 
 app.use(errorMiddleware);

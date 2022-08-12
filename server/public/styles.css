@@ -12,7 +12,7 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 102%;
   visibility: visible;
   overflow: hidden;
 }
@@ -43,6 +43,7 @@ video {
 
 .card-position {
   top: 200px;
+  width: 400px;
 }
 
 .color {
@@ -61,6 +62,113 @@ video {
   font-size: 1.2rem;
 }
 
+.color-menu {
+  background-color: #c1ddd8;
+}
+
+li {
+  list-style-type: none;
+}
+
+.log {
+  font-size: 1.3rem;
+}
+
+li:nth-child(even) {
+  background-color: white;
+}
+
+li:nth-child(odd) {
+  background-color: #f8f9fa;
+}
+
+.edit-button {
+  position: relative;
+  top: 5px;
+}
+
+[type="radio"] + img {
+  cursor: pointer;
+}
+
+.baby-buttons {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.baby {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.radio-buttons {
+  opacity: 1;
+  width: 15px;
+  height: 15px;
+}
+
+ul {
+  list-style-type: none;
+  width: 100%;
+}
+
+.color-p {
+  background-color: #f8d7da;
+  font-size: 1.5rem;
+}
+
+.color-footer {
+  background-color: #b8d7e9;
+}
+
+.icon-button {
+  width: 80px;
+  height: 80px;
+  border-style: none;
+  border-radius: 50%;
+}
+
+.care-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.baby-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.color-a {
+  color: pink;
+}
+
+.baby-color {
+  color: black;
+  text-decoration: none;
+}
+
+.icon {
+  width: 50px;
+  height: 50px;
+}
+
+.footer-position {
+  position: fixed;
+  bottom: 1rem;
+}
+
+.sign-out {
+  background-color: red;
+  color: white;
+}
+
 @media only screen and (min-width: 300px) and (max-width: 875px) {
   .col-5 {
     width: 100%;
@@ -72,7 +180,7 @@ video {
 
   .card-position {
     position: relative;
-    top: 150px;
+    top: 424px;
   }
 
   .welcome-font {
@@ -81,6 +189,11 @@ video {
 
   .message-font {
     font-size: 1rem;
+  }
+
+  .baby {
+    width: 40px;
+    height: 40px;
   }
 }
 
