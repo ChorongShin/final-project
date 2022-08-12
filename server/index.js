@@ -141,17 +141,6 @@ app.post('/api/babyLogs', (req, res, next) => {
     throw new ClientError(400, 'typeOfCare is required');
   }
 
-  // const sql = `
-  //   insert into "babyLogs" ("babyId", "typeOfCare")
-  //   values ($1, $2)
-  //   returning
-  //     "babyLogId",
-  //     "babyId",
-  //     "typeOfCare",
-  //     to_char("createdAt", 'YYYY-MM-DD') as "date",
-  //     "createdAt"
-  // `;
-
   const sql = `
     insert into "babyLogs" ("babyId", "typeOfCare")
     values ($1, $2)
@@ -175,21 +164,6 @@ app.post('/api/babyLogs', (req, res, next) => {
 });
 
 app.get('/api/babyLogs', (req, res, next) => {
-//   const sql = `
-//   select *
-//   from "babyLogs"
-//   order by "createdAt" desc
-// `;
-
-  //   const sql = `
-  //   select
-  //     "babyLogId",
-  //     "babyId",
-  //     "typeOfCare",
-  //     "createdAt" - interval '8 hours' as "createdAt"
-  //   from "babyLogs"
-  //   order by "createdAt" desc
-  // `;
 
   const sql = `
   select
@@ -217,23 +191,6 @@ app.get('/api/babyLogs', (req, res, next) => {
       res.json(group);
     })
     .catch(err => next(err));
-
-  // db.query(sql)
-  //   .then(result => {
-  //     const logs = result.rows;
-
-  //     let group = logs.reduce((ac, a) => {
-  //       const key = new Date(a.createdAt).toISOString().split('T')[0];
-  //       ac[key] = (ac[key] || []).concat(a);
-  //       return ac;
-  //     }, {});
-
-  //     group = Object.entries(group).map(([k, v]) => ({ [k]: v }));
-  //     // group = Object.entries(group).map(([k, v]) => ({ [k]: v.reverse() }));
-
-  //     res.json(group);
-  //   })
-  //   .catch(err => next(err));
 });
 
 app.delete('/api/babyLogs/:babyLogId', (req, res, next) => {
