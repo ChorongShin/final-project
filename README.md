@@ -1,3 +1,2 @@
-# React-Practice
-
-A full stack React-Practice
+# final-project
+A full stack JavaScript solo project.
